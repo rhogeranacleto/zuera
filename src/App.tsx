@@ -198,7 +198,7 @@ function App() {
             </header>
             <section style={{ backgroundImage: `url("${current.src}")` }} />
             <footer>
-              <button onClick={next.bind(undefined, false)}>Passa</button>
+              <button onClick={next.bind(undefined, false)} disabled={round === 3}>Passa</button>
               <button onClick={next.bind(undefined, true)} className="success">Acertou!</button>
             </footer>
           </main>
