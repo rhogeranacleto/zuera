@@ -29,6 +29,7 @@ interface IState {
   newPlayer: string;
   amountOfTime: number;
   timeRemaining: number;
+  rounds: number;
 }
 
 type Action = { type: 'add_to_playlist', item: IMeme } | { type: 'merge', state: Partial<IState> } | { type: 'add_player', player: Player } | { type: 'decrese_time' } | { type: 'next_round' } | { type: 'suffle' } | { type: 'score' }
@@ -83,7 +84,8 @@ function App() {
     player,
     newPlayer,
     amountOfTime,
-    timeRemaining
+    timeRemaining,
+    rounds
   }, dispatch] = useReducer(reducer, {
     playlist: [],
     current: randomMemes[0],
@@ -91,7 +93,8 @@ function App() {
     players: [],
     newPlayer: '',
     amountOfTime: 90,
-    timeRemaining: 0
+    timeRemaining: 0,
+    rounds: 3
   });
 
   const timeout = useRef<any>();
@@ -134,7 +137,7 @@ function App() {
 
   useEffect(() => {
     if (timeRemaining === 0 && player && players.indexOf(player) === players.length - 1) {
-      debugger;
+
       dispatch({
         type: 'merge', state: {
           player: undefined,
@@ -169,11 +172,13 @@ function App() {
         <div>
           {amountOfTime} Segundos
           <input type="range" min={90} max={5 * 60} value={amountOfTime} onChange={e => dispatch({ type: 'merge', state: { amountOfTime: Number(e.target.value) } })} />
+          Rounds
+          <input type='number' min={3} value={rounds} onChange={e => dispatch({ type: 'merge', state: { rounds: Number(e.target.value) } })} />
         </div>
         <button onClick={() => dispatch({ type: 'merge', state: { round: 1 } })}>Começar</button>
       </footer>
     </main>,
-    4: <main>
+    [rounds + 1]: <main>
       <header>
         <h1>Cabô</h1>
       </header>
